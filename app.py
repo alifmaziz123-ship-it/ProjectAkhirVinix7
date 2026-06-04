@@ -264,12 +264,25 @@ with tab1:
 # TAB 2: MODEL PERFORMANCE
 # ═══════════════════════════════════════════════════════════════════════════
 with tab2:
-    model_choice = st.radio("Pilih Model", ["Tanpa Bobot Kelas", "Dengan Bobot Kelas"], horizontal=True)
+    st.markdown("**Model yang direkomendasikan:** Logistic Balanced (Imbalance Lebih Baik)")
+    model_choice = st.radio(
+        "Pilih Model",
+        [
+            "Tanpa Bobot Kelas",
+            "Dengan Bobot Kelas (Balanced Auto)",
+            "Logistic Balanced (Imbalance Lebih Baik)"
+        ],
+        index=2,
+        horizontal=False
+    )
+    st.caption("Pilih model ini untuk hasil yang lebih adil pada kelas Netral dan Negatif.")
     
-    if model_choice == "Without Class Weight":
+    if model_choice == "Tanpa Bobot Kelas":
         model = DATA['model_no_weight']
-    else:
+    elif model_choice == "Dengan Bobot Kelas (Balanced Auto)":
         model = DATA['model_weighted']
+    else:
+        model = DATA['model_balanced']
     
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -281,6 +294,24 @@ with tab2:
             st.markdown("**Class Weights:**")
             for cls, weight in model['weights'].items():
                 st.write(f"• {cls}: {weight:.4f}")
+    
+    if model_choice == "Tanpa Bobot Kelas":
+        st.info(
+            "Model ini tidak memakai bobot kelas. Akurasinya tinggi karena didominasi oleh kelas Positif, "
+            "tetapi performa minoritas masih kurang seimbang."
+        )
+    elif model_choice == "Dengan Bobot Kelas (Balanced Auto)":
+        st.info(
+            "Model dengan bobot kelas (Balanced Auto) meningkatkan recall untuk kelas minoritas "
+            "Negatif dan Netral. Hasilnya lebih seimbang dibanding model tanpa bobot, meskipun "
+            "akurasi keseluruhan sedikit turun karena model menyeimbangkan kelas yang jarang muncul."
+        )
+    else:
+        st.info(
+            "Model Logistic Balanced menggunakan TF-IDF dan class_weight untuk mengurangi imbalance. "
+            "Hasilnya menunjukkan macro F1 lebih tinggi dan recall minoritas yang lebih baik tanpa "
+            "mengorbankan akurasi secara signifikan."
+        )
     
     # Confusion Matrix
     st.subheader("Matriks Kebingungan")

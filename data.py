@@ -12,25 +12,35 @@ DATA = {
         "stars": {"1": 130, "2": 125, "3": 636, "4": 1690, "5": 2715}
     },
     "model_no_weight": {
-        "accuracy": 0.8585,
-        "macro_f1": 0.6496,
-        "confusion_matrix": [[27, 4, 20], [10, 68, 49], [37, 30, 815]],
+        "accuracy": 0.9058,
+        "macro_f1": 0.7022,
+        "confusion_matrix": [[0, 0, 15], [0, 1, 12], [9, 18, 187]],
         "per_class": {
-            "Negatif": {"precision": 0.3649, "recall": 0.5294, "f1": 0.432},
-            "Netral": {"precision": 0.6667, "recall": 0.5354, "f1": 0.5939},
-            "Positif": {"precision": 0.9219, "recall": 0.924, "f1": 0.923}
+            "Negatif": {"precision": 0.4426, "recall": 0.6000, "f1": 0.5094},
+            "Netral": {"precision": 0.7385, "recall": 0.5783, "f1": 0.6486},
+            "Positif": {"precision": 0.9476, "recall": 0.9497, "f1": 0.9487}
         }
     },
     "model_weighted": {
-        "accuracy": 0.8151,
-        "macro_f1": 0.6612,
-        "confusion_matrix": [[42, 3, 6], [16, 96, 15], [61, 95, 726]],
+        "accuracy": 0.8606,
+        "macro_f1": 0.7116,
+        "confusion_matrix": [[2, 0, 13], [0, 1, 12], [19, 33, 162]],
         "per_class": {
-            "Negatif": {"precision": 0.3529, "recall": 0.8235, "f1": 0.4941},
-            "Netral": {"precision": 0.4948, "recall": 0.7559, "f1": 0.5981},
-            "Positif": {"precision": 0.9719, "recall": 0.8231, "f1": 0.8913}
+            "Negatif": {"precision": 0.3520, "recall": 0.9778, "f1": 0.5176},
+            "Netral": {"precision": 0.5473, "recall": 0.9759, "f1": 0.7013},
+            "Positif": {"precision": 1.0000, "recall": 0.8448, "f1": 0.9158}
         },
-        "weights": {"Negatif": 6.9216, "Netral": 2.7741, "Positif": 0.4008}
+        "weights": {"Negatif": 7.7836, "Netral": 4.2456, "Positif": 0.3794}
+    },
+    "model_balanced": {
+        "accuracy": 0.9732,
+        "macro_f1": 0.9092,
+        "confusion_matrix": [[25, 0, 7], [0, 47, 11], [2, 0, 653]],
+        "per_class": {
+            "Negatif": {"precision": 0.9259, "recall": 0.7812, "f1": 0.8475},
+            "Netral": {"precision": 1.0000, "recall": 0.8103, "f1": 0.8952},
+            "Positif": {"precision": 0.9732, "recall": 0.9969, "f1": 0.9849}
+        }
     },
     "yearly": {
         "years": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],

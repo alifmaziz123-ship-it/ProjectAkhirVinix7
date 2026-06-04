@@ -1,0 +1,1 @@
+Patching remaining Indonesian strings: pie labels, per-class class names, sample reviews header, word chart title, delete button label.

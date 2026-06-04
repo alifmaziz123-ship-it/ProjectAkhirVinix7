@@ -97,9 +97,9 @@ def build_data():
     months = list(range(1,13))
     month_names = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des']
     monthly_counts = {s: [0]*12 for s in ['Positif','Netral','Negatif']}
-    sub_latest = df[df['year'] == latest_year]
+    sub_latest = df[df['year'] == latest_year].copy()
     if not sub_latest.empty:
-        sub_latest['month'] = sub_latest['publishedAtDate_parsed'].dt.month.fillna(0).astype(int)
+        sub_latest.loc[:, 'month'] = sub_latest['publishedAtDate_parsed'].dt.month.fillna(0).astype(int)
         for m in months:
             subm = sub_latest[sub_latest['month'] == m]
             for s in ['Positif','Netral','Negatif']:

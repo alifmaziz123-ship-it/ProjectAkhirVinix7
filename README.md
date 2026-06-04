@@ -34,27 +34,30 @@ npm start
 
 ---
 
-## ☁️ Deploy ke Vercel (Gratis, Rekomendasi)
+## ☁️ Deploy Aplikasi Streamlit
 
-### Cara 1 — Via Vercel CLI
-```bash
-npm install -g vercel
-vercel login
-vercel --prod
-```
+> ⚠️ Perhatian: Vercel tidak cocok untuk menjalankan aplikasi Streamlit secara langsung. Untuk app ini, gunakan Streamlit Cloud, Render, atau Railway.
 
-### Cara 2 — Via GitHub + Vercel Dashboard
-1. Push project ke GitHub:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git remote add origin https://github.com/USERNAME/dlas-sentiment.git
-   git push -u origin main
-   ```
-2. Buka [vercel.com](https://vercel.com) → **Add New Project**
-3. Import repo GitHub → **Deploy**
-4. Selesai! URL otomatis tersedia.
+### Pilihan 1 — Streamlit Cloud (Direkomendasikan)
+1. Push project ke GitHub.
+2. Buka: https://streamlit.io/cloud
+3. Klik **New App** dan pilih repository + branch `main`.
+4. Set `Main file path:` ke `app.py`.
+5. Deploy.
+
+### Pilihan 2 — Render
+1. Push project ke GitHub.
+2. Buka: https://render.com
+3. Create a new Web Service dan connect repository.
+4. Render akan membaca `render.yaml` otomatis.
+5. Deploy.
+
+### Pilihan 3 — Railway
+1. Push project ke GitHub.
+2. Buka: https://railway.app
+3. Klik **New Project** → **Deploy from GitHub Repo**.
+4. Railway akan auto-detect `requirements.txt`.
+5. Set `Start Command:` ke `streamlit run app.py` jika perlu.
 
 ---
 
