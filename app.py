@@ -115,8 +115,8 @@ if os.path.exists('datagabung_5y.csv'):
 st.markdown(
     f"""
     <div class='hero-block'>
-        <div class='app-title'>🏔️ D'Las Lembah Asri</div>
-        <div class='app-subtitle'>Google Reviews sentiment dashboard for the last 5 years. Explore sentiment trends, model performance, and review patterns in one place.</div>
+        <div class='app-title'>🏔️ D'Las Lembah Asri Serang Purbalingga</div>
+        <div class='app-subtitle'>Dashboard sentimen ulasan Google Reviews untuk 5 tahun terakhir. Jelajahi tren sentimen, performa model, dan pola ulasan dalam satu tampilan.</div>
     </div>
     """,
     unsafe_allow_html=True
