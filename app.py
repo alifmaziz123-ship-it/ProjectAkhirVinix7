@@ -183,7 +183,7 @@ st.markdown(
     <div class='hero-block' style='background-image: linear-gradient(180deg, rgba(15,23,42,0.45), rgba(15,23,42,0.22) 48%, rgba(15,23,42,0.68) 100%), url("{hero_img}");'>
         <div class='hero-content'>
             <div class='app-title'>D'Las Lembah Asri Serang Purbalingga</div>
-            <div class='app-subtitle'>Dashboard sentimen ulasan Google Reviews untuk 5 tahun terakhir. Jelajahi tren sentimen, performa model, dan pola ulasan dalam satu tampilan yang bersih dan profesional.</div>
+            <div class='app-subtitle'>Nikmati keindahan alam D'Las Lembah Asri, lembah wisata dengan pemandangan Gunung Slamet yang memukau, udara sejuk, dan pengalaman liburan yang alami.</div>
         </div>
     </div>
     """,
