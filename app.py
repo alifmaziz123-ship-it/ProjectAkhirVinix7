@@ -105,18 +105,6 @@ st.markdown("""
         line-height: 1.75;
         max-width: 780px;
     }
-    .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: rgba(255,255,255,0.12);
-        border: 1px solid rgba(255,255,255,0.18);
-        padding: 10px 14px;
-        border-radius: 999px;
-        color: #f8fafc;
-        font-weight: 700;
-        margin-bottom: 1rem;
-    }
     .metric-card {
         background-color: #ffffff;
         border: 1px solid rgba(148, 163, 184, 0.18);
@@ -194,10 +182,6 @@ st.markdown(
     f"""
     <div class='hero-block' style='background-image: linear-gradient(180deg, rgba(15,23,42,0.45), rgba(15,23,42,0.22) 48%, rgba(15,23,42,0.68) 100%), url("{hero_img}");'>
         <div class='hero-content'>
-            <div class='hero-badge'>
-                <span>🏞️</span>
-                <span>Gunung Slamet | Background Visual</span>
-            </div>
             <div class='app-title'>D'Las Lembah Asri Serang Purbalingga</div>
             <div class='app-subtitle'>Dashboard sentimen ulasan Google Reviews untuk 5 tahun terakhir. Jelajahi tren sentimen, performa model, dan pola ulasan dalam satu tampilan yang bersih dan profesional.</div>
         </div>
