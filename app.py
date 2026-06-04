@@ -64,30 +64,58 @@ st.markdown("""
         background: transparent;
     }
     .hero-block {
-        background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 35%),
-                    linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
-        /* Subtle Mount Slamet SVG silhouette embedded as a data URI */
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 400'><path d='M0 300 L150 100 L300 300 L450 150 L600 300 L800 80 L800 400 L0 400 Z' fill='%23304f2b' opacity='0.12'/><path d='M0 320 L160 140 L320 320 L480 180 L640 320 L800 120 L800 400 L0 400 Z' fill='%233a6b3d' opacity='0.09'/></svg>");
-        background-repeat: no-repeat;
-        background-position: left bottom;
-        background-size: 48% auto;
-        border: 1px solid rgba(96, 165, 250, 0.22);
+        position: relative;
+        min-height: 360px;
         border-radius: 28px;
-        padding: 32px;
-        box-shadow: 0 28px 90px rgba(15, 23, 42, 0.08);
+        overflow: hidden;
+        padding: 42px 42px 42px 42px;
         margin-bottom: 24px;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: 0 28px 90px rgba(15, 23, 42, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        background-color: #0f172a;
+        background-size: cover;
+        background-position: center;
+        color: white;
+    }
+    .hero-block::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(15,23,42,0.62) 0%, rgba(15,23,42,0.18) 45%, rgba(15,23,42,0.72) 100%);
+        pointer-events: none;
+    }
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 760px;
     }
     .app-title {
-        font-size: 2.8rem;
-        font-weight: 800;
-        color: #0f172a;
+        font-size: 3rem;
+        font-weight: 900;
+        color: #ffffff;
         margin-bottom: 0.4rem;
+        line-height: 1.05;
     }
     .app-subtitle {
         font-size: 1.05rem;
-        color: #334155;
+        color: rgba(255,255,255,0.88);
         line-height: 1.75;
-        max-width: 820px;
+        max-width: 780px;
+    }
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.18);
+        padding: 10px 14px;
+        border-radius: 999px;
+        color: #f8fafc;
+        font-weight: 700;
+        margin-bottom: 1rem;
     }
     .metric-card {
         background-color: #ffffff;
@@ -164,13 +192,14 @@ if not hero_img:
 
 st.markdown(
     f"""
-    <div class='hero-block'>
-        <div style='display:flex; align-items:center; gap:18px;'>
-            <img src="{hero_img}" style='width:280px; height:160px; object-fit:cover; border-radius:12px; box-shadow:0 8px 24px rgba(15,23,42,0.12)' />
-            <div>
-                <div class='app-title'>🏔️ D'Las Lembah Asri Serang Purbalingga</div>
-                <div class='app-subtitle'>Dashboard sentimen ulasan Google Reviews untuk 5 tahun terakhir. Jelajahi tren sentimen, performa model, dan pola ulasan dalam satu tampilan yang bersih dan profesional.</div>
+    <div class='hero-block' style='background-image: linear-gradient(180deg, rgba(15,23,42,0.45), rgba(15,23,42,0.22) 48%, rgba(15,23,42,0.68) 100%), url("{hero_img}");'>
+        <div class='hero-content'>
+            <div class='hero-badge'>
+                <span>🏞️</span>
+                <span>Gunung Slamet | Background Visual</span>
             </div>
+            <div class='app-title'>D'Las Lembah Asri Serang Purbalingga</div>
+            <div class='app-subtitle'>Dashboard sentimen ulasan Google Reviews untuk 5 tahun terakhir. Jelajahi tren sentimen, performa model, dan pola ulasan dalam satu tampilan yang bersih dan profesional.</div>
         </div>
     </div>
     """,
