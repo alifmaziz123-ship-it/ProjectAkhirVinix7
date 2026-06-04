@@ -7,8 +7,8 @@ import json
 import os
 from datetime import datetime
 
-# Sentiment label mapping (internal keys -> English labels)
-SENTIMENT_LABELS = {'Positif': 'Positive', 'Netral': 'Neutral', 'Negatif': 'Negative'}
+# Sentiment label mapping (internal keys -> display labels in Indonesian)
+SENTIMENT_LABELS = {'Positif': 'Positif', 'Netral': 'Netral', 'Negatif': 'Negatif'}
 INV_SENTIMENT = {v: k for k, v in SENTIMENT_LABELS.items()}
 
 # Page config
@@ -139,8 +139,13 @@ if os.path.exists('datagabung_5y.csv'):
 st.markdown(
     f"""
     <div class='hero-block'>
-        <div class='app-title'>🏔️ D'Las Lembah Asri Serang Purbalingga</div>
-        <div class='app-subtitle'>Dashboard sentimen ulasan Google Reviews untuk 5 tahun terakhir. Jelajahi tren sentimen, performa model, dan pola ulasan dalam satu tampilan yang bersih dan profesional.</div>
+        <div style='display:flex; align-items:center; gap:18px;'>
+            <img src='https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80' style='width:140px; height:80px; object-fit:cover; border-radius:12px; box-shadow:0 8px 24px rgba(15,23,42,0.12)' />
+            <div>
+                <div class='app-title'>🏔️ D'Las Lembah Asri Serang Purbalingga</div>
+                <div class='app-subtitle'>Dashboard sentimen ulasan Google Reviews untuk 5 tahun terakhir. Jelajahi tren sentimen, performa model, dan pola ulasan dalam satu tampilan yang bersih dan profesional.</div>
+            </div>
+        </div>
     </div>
     """,
     unsafe_allow_html=True
@@ -150,35 +155,35 @@ positive_pct = (DATA['distribution']['sentiment'].get('Positif', 0) / DATA['meta
 latest_year = DATA['yearly']['years'][-1] if DATA['yearly']['years'] else 'N/A'
 avg_rating_latest = DATA['yearly']['avg_rating'][-1] if DATA['yearly']['avg_rating'] else 0.0
 col1, col2, col3, col4 = st.columns(4)
-col1.metric("Total Reviews", f"{DATA['meta']['total_data']:,}")
-col2.metric("Positive Share", f"{positive_pct:.1f}%")
-col3.metric("Latest Year", latest_year)
-col4.metric("Average Rating", f"{avg_rating_latest:.2f}")
+col1.metric("Total Ulasan", f"{DATA['meta']['total_data']:,}")
+col2.metric("Persentase Positif", f"{positive_pct:.1f}%")
+col3.metric("Tahun Terakhir", latest_year)
+col4.metric("Rata-rata Rating", f"{avg_rating_latest:.2f}")
 
 # Tab navigation
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📈 Overview", "📊 Model Performance", "📅 Trends", "💬 Word Analysis", "📝 Sample Reviews", "➕ Add Review"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📈 Ringkasan", "📊 Performa Model", "📅 Tren", "💬 Analisis Kata", "📝 Contoh Ulasan", "➕ Tambah Ulasan"])
 
 # ═══════════════════════════════════════════════════════════════════════════
 # TAB 1: OVERVIEW
 # ═══════════════════════════════════════════════════════════════════════════
 with tab1:
-    st.subheader("Sentiment Distribution")
+    st.subheader("Distribusi Sentimen")
     col1, col2 = st.columns(2)
     
     with col1:
         # Sentiment pie chart
         sentiment_data = DATA['distribution']['sentiment']
-        # display labels in English
+        # tampilkan label dalam Bahasa Indonesia
         labels_display = [SENTIMENT_LABELS.get(k, k) for k in sentiment_data.keys()]
         values = [v for v in sentiment_data.values()]
         fig_sentiment = go.Figure(data=[go.Pie(
             labels=labels_display,
             values=values,
-            marker=dict(colors=['#16a34a', '#d97706', '#dc2626']),
+            marker=dict(colors=['#2a7f4f', '#d97706', '#8b5e3c']),
             hovertemplate='<b>%{label}</b><br>Count: %{value}<br>%{percent}<extra></extra>'
         )])
         fig_sentiment.update_layout(
-            title="Sentiment Distribution",
+            title="Distribusi Sentimen",
             height=400,
             margin=dict(l=0, r=0, t=30, b=0)
         )
@@ -194,9 +199,9 @@ with tab1:
             hovertemplate='<b>★ %{x}</b><br>Count: %{y}<extra></extra>'
         )])
         fig_stars.update_layout(
-            title="Star Rating Distribution",
+            title="Distribusi Rating Bintang",
             xaxis_title="Rating",
-            yaxis_title="Count",
+            yaxis_title="Jumlah",
             height=400,
             margin=dict(l=0, r=0, t=30, b=0),
             showlegend=False
@@ -204,7 +209,7 @@ with tab1:
         st.plotly_chart(fig_stars, use_container_width=True)
     
     # KPI Cards
-    st.subheader("Key Metrics")
+    st.subheader("Metrik Utama")
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
@@ -220,7 +225,7 @@ with tab1:
 # TAB 2: MODEL PERFORMANCE
 # ═══════════════════════════════════════════════════════════════════════════
 with tab2:
-    model_choice = st.radio("Select Model", ["Without Class Weight", "With Class Weight"], horizontal=True)
+    model_choice = st.radio("Pilih Model", ["Tanpa Bobot Kelas", "Dengan Bobot Kelas"], horizontal=True)
     
     if model_choice == "Without Class Weight":
         model = DATA['model_no_weight']
@@ -229,9 +234,9 @@ with tab2:
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric("Accuracy", f"{model['accuracy']:.4f}")
+        st.metric("Akurasi", f"{model['accuracy']:.4f}")
     with col2:
-        st.metric("Macro F1 Score", f"{model['macro_f1']:.4f}")
+        st.metric("Macro F1", f"{model['macro_f1']:.4f}")
     with col3:
         if 'weights' in model:
             st.markdown("**Class Weights:**")
@@ -239,7 +244,7 @@ with tab2:
                 st.write(f"• {cls}: {weight:.4f}")
     
     # Confusion Matrix
-    st.subheader("Confusion Matrix")
+    st.subheader("Matriks Kebingungan")
     cm = model['confusion_matrix']
     classes = ['Negatif', 'Netral', 'Positif']
     classes_display = [SENTIMENT_LABELS[c] for c in classes]
@@ -255,15 +260,15 @@ with tab2:
         hovertemplate='Actual: %{y}<br>Predicted: %{x}<br>Count: %{text}<extra></extra>'
     ))
     fig_cm.update_layout(
-        title="Confusion Matrix",
-        xaxis_title="Predicted",
-        yaxis_title="Actual",
+        title="Matriks Kebingungan",
+        xaxis_title="Prediksi",
+        yaxis_title="Sebenarnya",
         height=400
     )
     st.plotly_chart(fig_cm, use_container_width=True)
     
     # Per-class metrics
-    st.subheader("Per-Class Performance Metrics")
+    st.subheader("Metrik Per-Kelas")
     metrics_data = []
     for class_name, metrics in model['per_class'].items():
         metrics_data.append({
@@ -284,7 +289,7 @@ with tab3:
     
     # Yearly trends
     with col1:
-        st.subheader("Yearly Trends (2016-2024)")
+        st.subheader("Tren Tahunan (2016-2024)")
         yearly = DATA['yearly']
         
         fig_yearly = go.Figure()
@@ -313,7 +318,7 @@ with tab3:
     
     # Average rating trend
     with col2:
-        st.subheader("Average Rating by Year")
+        st.subheader("Rata-rata Rating per Tahun")
         fig_rating = go.Figure(data=[go.Scatter(
             x=yearly['years'],
             y=yearly['avg_rating'],
@@ -332,7 +337,7 @@ with tab3:
         st.plotly_chart(fig_rating, use_container_width=True)
     
     # Monthly 2024 trends
-    st.subheader("Monthly Distribution (2024)")
+    st.subheader("Distribusi Bulanan (2024)")
     monthly = DATA['monthly_2024']
     
     fig_monthly = go.Figure()
@@ -351,9 +356,9 @@ with tab3:
     
     fig_monthly.update_layout(
         barmode='stack',
-        title="Monthly Sentiment Distribution 2024",
-        xaxis_title="Month",
-        yaxis_title="Count",
+        title="Distribusi Sentimen Bulanan 2024",
+        xaxis_title="Bulan",
+        yaxis_title="Jumlah",
         height=400,
         hovermode='x'
     )
@@ -366,7 +371,7 @@ with tab4:
     # Sentiment selector (display English labels)
     sentiment_keys = ['Positif', 'Netral', 'Negatif']
     sentiment_options = [SENTIMENT_LABELS[k] for k in sentiment_keys]
-    sentiment_display = st.radio("Select Sentiment", sentiment_options, horizontal=True)
+    sentiment_display = st.radio("Pilih Sentimen", sentiment_options, horizontal=True)
     sentiment_filter = INV_SENTIMENT[sentiment_display]
 
     words = DATA['top_words'][sentiment_filter]
@@ -375,7 +380,7 @@ with tab4:
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader(f"Top Words - {SENTIMENT_LABELS[sentiment_filter]}")
+        st.subheader(f"Kata Teratas - {SENTIMENT_LABELS[sentiment_filter]}")
         fig_words = go.Figure(data=[go.Bar(
             x=word_df['count'],
             y=word_df['word'],
@@ -389,16 +394,16 @@ with tab4:
             textposition='outside'
         )])
         fig_words.update_layout(
-            title=f"Word Frequency - {SENTIMENT_LABELS.get(sentiment_filter, sentiment_filter)}",
-            xaxis_title="Frequency",
-            yaxis_title="Word",
+            title=f"Frekuensi Kata - {SENTIMENT_LABELS.get(sentiment_filter, sentiment_filter)}",
+            xaxis_title="Frekuensi",
+            yaxis_title="Kata",
             height=500,
             margin=dict(l=100)
         )
         st.plotly_chart(fig_words, use_container_width=True)
     
     with col2:
-        st.subheader(f"Negative Themes")
+        st.subheader(f"Tema Negatif")
         neg_themes = DATA['neg_themes']
         
         theme_df = pd.DataFrame([
@@ -414,9 +419,9 @@ with tab4:
             textposition='outside'
         )])
         fig_themes.update_layout(
-            title="Negative Themes",
-            xaxis_title="Frequency",
-            yaxis_title="Theme",
+            title="Tema Negatif",
+            xaxis_title="Frekuensi",
+            yaxis_title="Tema",
             height=500,
             margin=dict(l=180)
         )
@@ -428,7 +433,7 @@ with tab4:
 with tab5:
     sentiment_keys = ['Positif', 'Netral', 'Negatif']
     sentiment_options = [SENTIMENT_LABELS[k] for k in sentiment_keys]
-    sentiment_display = st.radio("Select Sentiment Type", sentiment_options, horizontal=True)
+    sentiment_display = st.radio("Pilih Jenis Sentimen", sentiment_options, horizontal=True)
     sentiment_type = INV_SENTIMENT[sentiment_display]
 
     samples = DATA['samples'][sentiment_type]
@@ -439,7 +444,7 @@ with tab5:
         'Netral': '🟡'
     }
     
-    st.subheader(f"{color_map[sentiment_type]} Sample Reviews - {SENTIMENT_LABELS.get(sentiment_type, sentiment_type)}")
+    st.subheader(f"{color_map[sentiment_type]} Contoh Ulasan - {SENTIMENT_LABELS.get(sentiment_type, sentiment_type)}")
     
     for idx, sample in enumerate(samples, 1):
         with st.container():
@@ -458,32 +463,32 @@ with tab5:
 # TAB 6: ADD REVIEW
 # ═══════════════════════════════════════════════════════════════════════════
 with tab6:
-    st.subheader("✍️ Add New Review")
+    st.subheader("✍️ Tambah Ulasan Baru")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        review_stars = st.slider("Rating (stars)", 1, 5, 5, help="Choose 1-5 stars")
+        review_stars = st.slider("Rating (bintang)", 1, 5, 5, help="Pilih 1-5 bintang")
         # sentiment select (display English, store internal key)
         review_sentiment_display = st.selectbox(
-            "Select sentiment",
+            "Pilih sentimen",
             [SENTIMENT_LABELS[k] for k in ['Positif','Netral','Negatif']],
-            help="Choose sentiment for your review"
+            help="Pilih sentimen untuk ulasan Anda"
         )
         review_sentiment = INV_SENTIMENT[review_sentiment_display]
     
     with col2:
-        review_date = st.date_input("Review date", datetime.now())
+        review_date = st.date_input("Tanggal ulasan", datetime.now())
     
     review_text = st.text_area(
-        "Write your review",
-        placeholder="Example: The place is great for family trips, clean and affordable...",
+        "Tulis ulasan Anda",
+        placeholder="Contoh: Tempatnya bagus untuk liburan keluarga, bersih, dan terjangkau...",
         height=150
     )
     
-    if st.button("📤 Submit Review", type="primary", use_container_width=True):
+    if st.button("📤 Kirim Ulasan", type="primary", use_container_width=True):
         if review_text.strip() == "":
-            st.error("❌ Review cannot be empty!")
+            st.error("❌ Ulasan tidak boleh kosong!")
         else:
             new_review = {
                 "stars": int(review_stars),
@@ -491,17 +496,17 @@ with tab6:
                 "text": review_text.strip()
             }
             
-            # Add to session state
+            # Tambah ke session state
             st.session_state.new_reviews[review_sentiment].append(new_review)
             save_reviews()
             
-            st.success("✅ Review added successfully!")
+            st.success("✅ Ulasan berhasil ditambahkan!")
             st.balloons()
     
     st.divider()
     
     # Display new reviews
-    st.subheader("📋 Newly Added Reviews")
+    st.subheader("📋 Ulasan Baru")
     
     total_new = sum(len(reviews) for reviews in st.session_state.new_reviews.values())
     
@@ -511,7 +516,7 @@ with tab6:
         # Stats
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            st.metric("Total New Reviews", total_new)
+            st.metric("Total Ulasan Baru", total_new)
         with col2:
             st.metric(SENTIMENT_LABELS['Positif'], len(st.session_state.new_reviews['Positif']))
         with col3:
@@ -547,7 +552,7 @@ with tab6:
                         st.divider()
         
         # Download reviews as CSV
-        st.subheader("📥 Export Data")
+        st.subheader("📥 Ekspor Data")
         
         all_new_reviews = []
         for sentiment, reviews in st.session_state.new_reviews.items():
@@ -564,15 +569,15 @@ with tab6:
             csv = df_export.to_csv(index=False, encoding='utf-8-sig')
             
             st.download_button(
-                label="📥 Download CSV",
+                label="📥 Unduh CSV",
                 data=csv,
-                file_name=f"new_reviews_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
+                file_name=f"ulasan_baru_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
                 mime="text/csv",
                 use_container_width=True
             )
             
             # Reset data button
-            if st.button("🗑️ Delete All New Reviews", type="secondary", use_container_width=True):
+            if st.button("🗑️ Hapus Semua Ulasan Baru", type="secondary", use_container_width=True):
                 st.session_state.new_reviews = {'Positif': [], 'Netral': [], 'Negatif': []}
                 save_reviews()
                 st.rerun()
@@ -580,8 +585,9 @@ with tab6:
 # Footer
 st.markdown("---")
 st.markdown(f"""
-<div style='text-align: center; color: #64748b; font-size: 12px;'>
-    <p>D'Las Lembah Asri Sentiment Analysis Dashboard</p>
-    <p>Data Source: Google Maps Reviews | Period: {DATA['meta']['period']}</p>
+<div style='text-align: center; color: #475569; font-size: 13px;'>
+    <p>Dashboard Analisis Sentimen D'Las Lembah Asri Serang Purbalingga</p>
+    <p>Sumber Data: Google Maps Reviews | Periode: {DATA['meta']['period']}</p>
+    <p style='font-size:11px; color:#94a3b8'>Dibuat otomatis — data difilter 5 tahun terakhir</p>
 </div>
 """, unsafe_allow_html=True)
