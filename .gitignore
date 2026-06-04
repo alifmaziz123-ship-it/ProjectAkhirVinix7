@@ -29,3 +29,11 @@ yarn-error.log*
 *.swo
 *~
 .vercel
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/

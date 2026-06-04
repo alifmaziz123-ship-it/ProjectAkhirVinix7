@@ -5,7 +5,7 @@ DATA = {
         "total_data": 5296,
         "train_size": 4236,
         "test_size": 1060,
-        "period": "2016 - 2024"
+        "period": "2021-06-04 - 2026-06-04 (last 5 years)"
     },
     "distribution": {
         "sentiment": {"Positif": 4405, "Netral": 636, "Negatif": 255},
