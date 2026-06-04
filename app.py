@@ -35,15 +35,62 @@ def save_reviews():
 # Custom CSS
 st.markdown("""
     <style>
+    body {
+        background-color: #f5f7fb;
+    }
+    .stApp {
+        color-scheme: light;
+    }
+    .css-1d391kg {
+        padding-top: 1rem;
+    }
+    .hero-block {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 18px 60px rgba(15, 23, 42, 0.06);
+        margin-bottom: 24px;
+    }
+    .app-title {
+        font-size: 2.6rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 0.35rem;
+    }
+    .app-subtitle {
+        font-size: 1.05rem;
+        color: #475569;
+        line-height: 1.6;
+    }
     .metric-card {
         background-color: #f8fafc;
         border: 1px solid #e2e8f0;
-        border-radius: 10px;
+        border-radius: 18px;
         padding: 20px;
+        min-height: 120px;
     }
-    .positive { color: #16a34a; }
-    .neutral { color: #d97706; }
-    .negative { color: #dc2626; }
+    .metric-card .label {
+        color: #475569;
+        font-size: 0.95rem;
+        margin-bottom: 0.6rem;
+    }
+    .metric-card .value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 0.4rem;
+    }
+    .metric-card .caption {
+        color: #64748b;
+        font-size: 0.92rem;
+    }
+    .streamlit-expanderHeader {
+        font-weight: 700;
+    }
+    .sidebar .css-6qob1r {
+        padding-top: 1rem;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -65,8 +112,24 @@ if os.path.exists('datagabung_5y.csv'):
     )
 
 # Main content
-st.title("🏔️ D'Las Lembah Asri - Google Reviews Sentiment Dashboard")
-st.markdown(f"*{DATA['meta']['title']}*")
+st.markdown(
+    f"""
+    <div class='hero-block'>
+        <div class='app-title'>🏔️ D'Las Lembah Asri</div>
+        <div class='app-subtitle'>Google Reviews sentiment dashboard for the last 5 years. Explore sentiment trends, model performance, and review patterns in one place.</div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+positive_pct = (DATA['distribution']['sentiment'].get('Positif', 0) / DATA['meta']['total_data'] * 100) if DATA['meta']['total_data'] else 0.0
+latest_year = DATA['yearly']['years'][-1] if DATA['yearly']['years'] else 'N/A'
+avg_rating_latest = DATA['yearly']['avg_rating'][-1] if DATA['yearly']['avg_rating'] else 0.0
+col1, col2, col3, col4 = st.columns(4)
+col1.metric("Total Reviews", f"{DATA['meta']['total_data']:,}")
+col2.metric("Positive Share", f"{positive_pct:.1f}%")
+col3.metric("Latest Year", latest_year)
+col4.metric("Average Rating", f"{avg_rating_latest:.2f}")
 
 # Tab navigation
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📈 Overview", "📊 Model Performance", "📅 Trends", "💬 Word Analysis", "📝 Sample Reviews", "➕ Add Review"])
@@ -485,7 +548,7 @@ with tab6:
             )
             
             # Reset data button
-            if st.button("🗑️ Hapus Semua Ulasan Baru", type="secondary", use_container_width=True):
+            if st.button("🗑️ Delete All New Reviews", type="secondary", use_container_width=True):
                 st.session_state.new_reviews = {'Positif': [], 'Netral': [], 'Negatif': []}
                 save_reviews()
                 st.rerun()
