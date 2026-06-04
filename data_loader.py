@@ -134,9 +134,11 @@ def build_data():
         from data import DATA as OLD_DATA
         model_no_weight = OLD_DATA.get('model_no_weight', {})
         model_weighted = OLD_DATA.get('model_weighted', {})
+        model_balanced = OLD_DATA.get('model_balanced', {})
     except Exception:
         model_no_weight = {}
         model_weighted = {}
+        model_balanced = {}
 
     DATA = {
         'meta': {
@@ -153,6 +155,7 @@ def build_data():
         },
         'model_no_weight': model_no_weight,
         'model_weighted': model_weighted,
+        'model_balanced': model_balanced,
         'yearly': {
             'years': years,
             'avg_rating': avg_rating,
