@@ -5,6 +5,7 @@ import plotly.express as px
 from data_loader import DATA
 import json
 import os
+import base64
 from datetime import datetime
 
 # Sentiment label mapping (internal keys -> display labels in Indonesian)
@@ -31,6 +32,20 @@ def save_reviews():
     """Save reviews to JSON file"""
     with open('new_reviews.json', 'w', encoding='utf-8') as f:
         json.dump(st.session_state.new_reviews, f, ensure_ascii=False, indent=2)
+
+
+def get_data_uri_for_image(path: str) -> str | None:
+    """Return a data URI for the given local image path, or None if not found/failed."""
+    try:
+        if os.path.exists(path):
+            with open(path, 'rb') as f:
+                data = f.read()
+            ext = os.path.splitext(path)[1].lower().lstrip('.')
+            mime = 'image/jpeg' if ext in ['jpg', 'jpeg'] else f'image/{ext}'
+            return f"data:{mime};base64,{base64.b64encode(data).decode()}"
+    except Exception:
+        return None
+    return None
 
 # Custom CSS
 st.markdown("""
@@ -136,11 +151,22 @@ if os.path.exists('datagabung_5y.csv'):
     )
 
 # Main content
+# Prefer a local hero image if the user adds one to the repo (assets/hero_slamet.jpg,
+# static/hero_slamet.jpg, or public/hero_slamet.jpg). Otherwise fall back to Unsplash.
+local_candidates = ['assets/hero_slamet.jpg', 'static/hero_slamet.jpg', 'public/hero_slamet.jpg']
+hero_img = None
+for p in local_candidates:
+    hero_img = get_data_uri_for_image(p)
+    if hero_img:
+        break
+if not hero_img:
+    hero_img = 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80'
+
 st.markdown(
     f"""
     <div class='hero-block'>
         <div style='display:flex; align-items:center; gap:18px;'>
-            <img src='https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80' style='width:140px; height:80px; object-fit:cover; border-radius:12px; box-shadow:0 8px 24px rgba(15,23,42,0.12)' />
+            <img src="{hero_img}" style='width:280px; height:160px; object-fit:cover; border-radius:12px; box-shadow:0 8px 24px rgba(15,23,42,0.12)' />
             <div>
                 <div class='app-title'>🏔️ D'Las Lembah Asri Serang Purbalingga</div>
                 <div class='app-subtitle'>Dashboard sentimen ulasan Google Reviews untuk 5 tahun terakhir. Jelajahi tren sentimen, performa model, dan pola ulasan dalam satu tampilan yang bersih dan profesional.</div>
