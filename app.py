@@ -36,50 +36,61 @@ def save_reviews():
 st.markdown("""
     <style>
     body {
-        background-color: #f5f7fb;
+        background: linear-gradient(180deg, #eef6ff 0%, #f8fbff 40%, #ffffff 100%);
+        color-scheme: light;
     }
     .stApp {
-        color-scheme: light;
+        background: transparent;
     }
     .css-1d391kg {
         padding-top: 1rem;
     }
+    .stApp .main {
+        background: transparent;
+    }
     .hero-block {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 24px;
-        padding: 24px;
-        box-shadow: 0 18px 60px rgba(15, 23, 42, 0.06);
+        background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 35%),
+                    linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+        /* Subtle Mount Slamet SVG silhouette embedded as a data URI */
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 400'><path d='M0 300 L150 100 L300 300 L450 150 L600 300 L800 80 L800 400 L0 400 Z' fill='%23304f2b' opacity='0.12'/><path d='M0 320 L160 140 L320 320 L480 180 L640 320 L800 120 L800 400 L0 400 Z' fill='%233a6b3d' opacity='0.09'/></svg>");
+        background-repeat: no-repeat;
+        background-position: left bottom;
+        background-size: 48% auto;
+        border: 1px solid rgba(96, 165, 250, 0.22);
+        border-radius: 28px;
+        padding: 32px;
+        box-shadow: 0 28px 90px rgba(15, 23, 42, 0.08);
         margin-bottom: 24px;
     }
     .app-title {
-        font-size: 2.6rem;
+        font-size: 2.8rem;
         font-weight: 800;
         color: #0f172a;
-        margin-bottom: 0.35rem;
+        margin-bottom: 0.4rem;
     }
     .app-subtitle {
         font-size: 1.05rem;
-        color: #475569;
-        line-height: 1.6;
+        color: #334155;
+        line-height: 1.75;
+        max-width: 820px;
     }
     .metric-card {
-        background-color: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 18px;
-        padding: 20px;
+        background-color: #ffffff;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 20px;
+        padding: 24px;
         min-height: 120px;
     }
     .metric-card .label {
         color: #475569;
         font-size: 0.95rem;
-        margin-bottom: 0.6rem;
+        margin-bottom: 0.5rem;
     }
     .metric-card .value {
-        font-size: 1.8rem;
-        font-weight: 700;
+        font-size: 1.9rem;
+        font-weight: 800;
         color: #0f172a;
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.25rem;
     }
     .metric-card .caption {
         color: #64748b;
@@ -90,6 +101,19 @@ st.markdown("""
     }
     .sidebar .css-6qob1r {
         padding-top: 1rem;
+    }
+    .css-1d391kg .block-container {
+        padding-top: 0px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .stSidebar {
+        background: rgba(255,255,255,0.96) !important;
+        border: 1px solid rgba(96, 165, 250, 0.18);
+        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+    }
+    .css-1v3fvcr {
+        box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08) !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -116,7 +140,7 @@ st.markdown(
     f"""
     <div class='hero-block'>
         <div class='app-title'>🏔️ D'Las Lembah Asri Serang Purbalingga</div>
-        <div class='app-subtitle'>Dashboard sentimen ulasan Google Reviews untuk 5 tahun terakhir. Jelajahi tren sentimen, performa model, dan pola ulasan dalam satu tampilan.</div>
+        <div class='app-subtitle'>Dashboard sentimen ulasan Google Reviews untuk 5 tahun terakhir. Jelajahi tren sentimen, performa model, dan pola ulasan dalam satu tampilan yang bersih dan profesional.</div>
     </div>
     """,
     unsafe_allow_html=True
