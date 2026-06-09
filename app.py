@@ -163,7 +163,7 @@ if os.path.exists('datagabung_5y.csv'):
         data=csv_bytes,
         file_name='datagabung_5y.csv',
         mime='text/csv',
-        use_container_width=True
+        width='stretch'
     )
 
 # Main content
@@ -226,7 +226,7 @@ with tab1:
             height=400,
             margin=dict(l=0, r=0, t=30, b=0)
         )
-        st.plotly_chart(fig_sentiment, use_container_width=True)
+        st.plotly_chart(fig_sentiment, width='stretch')
     
     with col2:
         # Star rating distribution
@@ -245,7 +245,7 @@ with tab1:
             margin=dict(l=0, r=0, t=30, b=0),
             showlegend=False
         )
-        st.plotly_chart(fig_stars, use_container_width=True)
+        st.plotly_chart(fig_stars, width='stretch')
     
     # KPI Cards
     st.subheader("Metrik Utama")
@@ -335,7 +335,7 @@ with tab2:
         yaxis_title="Sebenarnya",
         height=400
     )
-    st.plotly_chart(fig_cm, use_container_width=True)
+    st.plotly_chart(fig_cm, width='stretch')
     
     # Per-class metrics
     st.subheader("Metrik Per-Kelas")
@@ -349,7 +349,7 @@ with tab2:
         })
     
     df_metrics = pd.DataFrame(metrics_data)
-    st.dataframe(df_metrics, use_container_width=True, hide_index=True)
+    st.dataframe(df_metrics, width='stretch', hide_index=True)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # TAB 3: TRENDS
@@ -384,7 +384,7 @@ with tab3:
             height=400,
             hovermode='x unified'
         )
-        st.plotly_chart(fig_yearly, use_container_width=True)
+        st.plotly_chart(fig_yearly, width='stretch')
     
     # Average rating trend
     with col2:
@@ -404,7 +404,7 @@ with tab3:
             height=400,
             hovermode='x'
         )
-        st.plotly_chart(fig_rating, use_container_width=True)
+        st.plotly_chart(fig_rating, width='stretch')
     
     # Monthly 2024 trends
     st.subheader("Distribusi Bulanan (2024)")
@@ -432,7 +432,7 @@ with tab3:
         height=400,
         hovermode='x'
     )
-    st.plotly_chart(fig_monthly, use_container_width=True)
+    st.plotly_chart(fig_monthly, width='stretch')
 
 # ═══════════════════════════════════════════════════════════════════════════
 # TAB 4: WORD ANALYSIS
@@ -470,7 +470,7 @@ with tab4:
             height=500,
             margin=dict(l=100)
         )
-        st.plotly_chart(fig_words, use_container_width=True)
+        st.plotly_chart(fig_words, width='stretch')
     
     with col2:
         st.subheader(f"Tema Negatif")
@@ -495,7 +495,7 @@ with tab4:
             height=500,
             margin=dict(l=180)
         )
-        st.plotly_chart(fig_themes, use_container_width=True)
+        st.plotly_chart(fig_themes, width='stretch')
 
 # ═══════════════════════════════════════════════════════════════════════════
 # TAB 5: SAMPLE REVIEWS
@@ -556,7 +556,7 @@ with tab6:
         height=150
     )
     
-    if st.button("📤 Kirim Ulasan", type="primary", use_container_width=True):
+    if st.button("📤 Kirim Ulasan", type="primary", width='stretch'):
         if review_text.strip() == "":
             st.error("❌ Ulasan tidak boleh kosong!")
         else:
@@ -643,11 +643,11 @@ with tab6:
                 data=csv,
                 file_name=f"ulasan_baru_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
                 mime="text/csv",
-                use_container_width=True
+                width='stretch'
             )
             
             # Reset data button
-            if st.button("🗑️ Hapus Semua Ulasan Baru", type="secondary", use_container_width=True):
+            if st.button("🗑️ Hapus Semua Ulasan Baru", type="secondary", width='stretch'):
                 st.session_state.new_reviews = {'Positif': [], 'Netral': [], 'Negatif': []}
                 save_reviews()
                 st.rerun()
